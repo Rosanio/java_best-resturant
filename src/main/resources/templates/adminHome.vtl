@@ -2,14 +2,14 @@
 <hr>
 <div class="row">
   <div class="col-md-6">
-    <form class="form-group" action="/cuisines" method="post">
+    <form class="form-group" action="/$user.getId()/cuisines" method="post">
       <label for="type">Enter a type of cuisine</label>
       <input type="text" name="type" placeholder="cuisine type" required>
       <button type="submit" class="btn btn-default">Add Cuisine Type</button>
     </form>
     <hr>
     #if ($cuisines.size() > 0)
-    <form class="form-group" action="/" method="post">
+    <form class="form-group" action="/$user.getId()" method="post">
       <label for="name">Enter a restaurant</label>
       <input type="text" name="name" placeholder="restaurant name" required>
       <select class="form-control" name="cuisineSelect">
@@ -21,14 +21,14 @@
     </form>
     #end
 
-    <a href="/cuisines">View all Cuisines</a>
+    <a href="/$user.getId()/cuisines">View all Cuisines</a>
   </div>
   <div class="col-md-6">
     <h3>Restaurant List</h3>
     <hr>
     <ul>
       #foreach ($restaurant in $restaurants)
-      <li><a href="/$restaurant.getId()">$restaurant.getName()</a></li>
+      <li><a href="/$user.getId()/$restaurant.getId()">$restaurant.getName()</a></li>
       #end
     </ul>
   </div>

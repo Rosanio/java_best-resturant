@@ -1,0 +1,13 @@
+#if($enteredPassword.equals($user.getPassword()))
+<h1>Welcome $user.getUsername()</h1>
+  #if($user.getPermission().equals("admin"))
+  <a href="/$user.getId()/adminHome">Enter</a>
+  #end
+  #if($user.getPermission().equals("user"))
+  <a href="/$user.getId()/cuisines">View restaurants by cuisine</a>
+  <a href="/$user.getId()/restaurants">View all restaurants</a>
+  #end
+#else
+<h1>Invalid password</h1>
+<a href="/">Try again</a>
+#end

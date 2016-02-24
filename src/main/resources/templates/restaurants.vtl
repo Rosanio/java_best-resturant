@@ -1,0 +1,14 @@
+<h3>Restaurant List</h3>
+<ul>
+#foreach ($restaurant in $restaurants)
+<li><a href="/$user.getId()/restaurants/$restaurant.getId()">$restaurant.getName()</a></li>
+#end
+</ul>
+
+#if($user.getPermission().equals("admin"))
+<a href="/$user.getId()/adminHome">Best Restaurants Home</a>
+#end
+
+#if($user.getPermission().equals("user"))
+<a href="/$user.getId()/cuisines">View all cuisines</a>
+#end
