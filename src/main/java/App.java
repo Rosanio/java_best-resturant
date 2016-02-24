@@ -10,12 +10,26 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
+    get("/", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
+      String enteredUsername = request.queryParams("username");
+      String enteredPassword = request.queryParams("password");
+      
+      model.put("template", "templates/welcome.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/adminHome", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("cuisines", Cuisine.all());
       model.put("restaurants", Restaurant.all());
-      model.put("template", "templates/index.vtl");
+      model.put("template", "templates/adminHome.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -36,14 +50,14 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/", (request, response) -> {
+    post("/adminHome", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String userRestaurant = request.queryParams("name");
       Restaurant newRestaurant = new Restaurant(userRestaurant, Integer.parseInt(request.queryParams("cuisineSelect")));
       newRestaurant.save();
       model.put("restaurants", Restaurant.all());
       model.put("cuisines", Cuisine.all());
-      model.put("template", "templates/index.vtl");
+      model.put("template", "templates/adminHome.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 

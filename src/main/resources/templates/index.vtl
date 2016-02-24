@@ -1,36 +1,7 @@
-<h1>Best Restaurants</h1>
-<hr>
-<div class="row">
-  <div class="col-md-6">
-    <form class="form-group" action="/cuisines" method="post">
-      <label for="type">Enter a type of cuisine</label>
-      <input type="text" name="type" placeholder="cuisine type" required>
-      <button type="submit" class="btn btn-default">Add Cuisine Type</button>
-    </form>
-    <hr>
-    #if ($cuisines.size() > 0)
-    <form class="form-group" action="/" method="post">
-      <label for="name">Enter a restaurant</label>
-      <input type="text" name="name" placeholder="restaurant name" required>
-      <select class="form-control" name="cuisineSelect">
-        #foreach ($cuisine in $cuisines)
-        <option value="$cuisine.getId()">$cuisine.getType()</option>
-        #end
-      </select>
-      <button id="restaurantBtn" type="submit" class="btn btn-default">Add Restaurant</button>
-    </form>
-    #end
-
-    <a href="/cuisines">View all Cuisines</a>
-  </div>
-  <div class="col-md-6">
-    <h3>Restaurant List</h3>
-    <hr>
-    <ul>
-      #foreach ($restaurant in $restaurants)
-      <li><a href="/$restaurant.getId()">$restaurant.getName()</a></li>
-      #end
-    </ul>
-  </div>
-
-</div>
+<form class="form-group" action="/welcome" method="post">
+  <label for="username">Username</label>
+  <input type="text" name="username" placeholder="enter username" required>
+  <label for="password">Password</label>
+  <input type="password" name="password" placeholder="enter password" required>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>
