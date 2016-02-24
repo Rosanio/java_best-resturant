@@ -2,19 +2,25 @@ import org.sql2o.*;
 import java.util.List;
 
 public class Restaurant {
-  private int mId;
-  private String mName;
+  private int id;
+  private String name;
+  private int cuisineId;
 
-  public Restaurant (String name) {
-    this.mName = name;
+  public Restaurant (String name, int cuisineId) {
+    this.name = name;
+    this.cuisineId = cuisineId;
   }
 
   public int getId() {
-    return mId;
+    return id;
   }
 
   public String getName() {
-    return mName;
+    return name;
+  }
+
+  public int getCuisineId() {
+    return cuisineId;
   }
 
   @Override
@@ -28,27 +34,30 @@ public class Restaurant {
     }
   }
 
-  //CREATE
+
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "INSERT INTO restaurants (name, cuisineId) VALUES (:name, :cuisineId)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", name)
+        .addParameter("cuisineId", cuisineId)
+        .executeUpdate()
+        .getKey();
     }
   }
 
   //READ
   public static List<Restaurant> all() {
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "SELECT * FROM restaurants";
+      return con.createQuery(sql)
+      .executeAndFetch(Restaurant.class);
     }
   }
 
   //UPDATE
   public void update(String newName) {
-    this.mName = newName;
+    this.name = newName;
     try(Connection con = DB.sql2o.open()) {
       /******************************************************
         Students: TODO: Display all restaurants on main page
