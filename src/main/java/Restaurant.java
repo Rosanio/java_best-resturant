@@ -34,7 +34,6 @@ public class Restaurant {
     }
   }
 
-
   public void save() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO restaurants (name, cuisineId) VALUES (:name, :cuisineId)";
@@ -46,7 +45,6 @@ public class Restaurant {
     }
   }
 
-  //READ
   public static List<Restaurant> all() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM restaurants";
@@ -55,29 +53,32 @@ public class Restaurant {
     }
   }
 
-  //UPDATE
   public void update(String newName) {
     this.name = newName;
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
-      }
-  }
-
-  //DELETE
-  public void delete() {
-    try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "UPDATE restaurants SET name = :newName WHERE id = :id";
+      con.createQuery(sql).addParameter("newName", newName).addParameter("id", id).executeUpdate();
     }
   }
 
-  /******************************************************
-    Students:
-    TODO: Create find method
-    TODO: Create method to get cuisine type
-  *******************************************************/
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM restaurants WHERE id = :id";
+      con.createQuery(sql).addParameter("id", id).executeUpdate();
+    }
+  }
 
+  public static Restaurant find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM restaurants WHERE id = :id";
+      return con.createQuery(sql).addParameter("id", id).executeAndFetchFirst(Restaurant.class);
+    }
+  }
+
+  public String getCuisineType() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM cuisine WHERE cuisine_id = :cuisineid";
+      return con.createQuery(sql).addParameter("cuisineid", cuisineId).executeAndFetchFirst(Cuisine.class).getType();
+    }
+  }
 }

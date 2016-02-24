@@ -1,0 +1,8 @@
+<h3>Cuisine List</h3>
+<ul>
+#foreach ($cuisine in $cuisines)
+<li><a href="/cuisines/$cuisine.getId()">$cuisine.getType()</a></li>
+#end
+</ul>
+
+<a href="/">Best Restaurants Home</a>

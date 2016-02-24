@@ -9,7 +9,7 @@ public class Cuisine {
     this.type = type;
   }
 
-  public int getCuisineId() {
+  public int getId() {
     return cuisine_id;
   }
 
@@ -24,10 +24,9 @@ public class Cuisine {
     } else {
       Cuisine newCuisine = (Cuisine) otherCuisine;
       return this.getType().equals(newCuisine.getType()) &&
-        this.getCuisineId() == newCuisine.getCuisineId();
+        this.getId() == newCuisine.getId();
     }
   }
-
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
@@ -39,7 +38,7 @@ public class Cuisine {
     }
   }
 
-
+  //READ
   public static List<Cuisine> all() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM cuisine";
@@ -52,24 +51,32 @@ public class Cuisine {
   public void update(String newType) {
     this.type = newType;
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      String sql = "UPDATE cuisine SET type = :newType WHERE cuisine_id = :cuisine_id";
+      con.createQuery(sql).addParameter("newType", newType).addParameter("cuisine_id", cuisine_id).executeUpdate();
     }
   }
 
+  //DELETE
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Create sql query and execute update
-      *******************************************************/
+      String sql = "DELETE FROM cuisine WHERE cuisine_id = :cuisine_id";
+      con.createQuery(sql).addParameter("cuisine_id", cuisine_id).executeUpdate();
     }
   }
 
-  /******************************************************
-    Students:
-    TODO: Create find method
-    TODO: Create method to get restaurants
-  *******************************************************/
+  public static Cuisine find(int cuisine_id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM cuisine WHERE cuisine_id = :cuisine_id";
+      return con.createQuery(sql).addParameter("cuisine_id", cuisine_id).executeAndFetchFirst(Cuisine.class);
+    }
+  }
+
+  public List<Restaurant> getRestaurants() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM restaurants WHERE cuisineid = :cuisine_id";
+      return con.createQuery(sql).addParameter("cuisine_id", cuisine_id)
+      .executeAndFetch(Restaurant.class);
+    }
+  }
 
 }
