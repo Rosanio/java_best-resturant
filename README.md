@@ -3,6 +3,7 @@
 ##### Epicodus exercise using Java and Postgres, 01.21.2016
 
 ##### Author Names
+Matt Rosanio and Anna Becker
 
 ## Description
 Add a description here
