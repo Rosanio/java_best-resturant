@@ -2,6 +2,12 @@
 <ul>
 #foreach ($cuisine in $cuisines)
 <li><a href="/$user.getId()/cuisines/$cuisine.getId()">$cuisine.getType()</a></li>
+  #if($user.getPermission().equals("admin"))
+  <ul>
+    <li><a href="/$user.getId()/cuisines/$cuisine.getId()/delete">Delete</a></li>
+    <li><a href="/$user.getId()/cuisines/$cuisine.getId()/update">Update</a></li>
+  </ul>
+  #end
 #end
 </ul>
 

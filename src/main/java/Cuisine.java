@@ -79,4 +79,16 @@ public class Cuisine {
     }
   }
 
+  public void deleteRestaurants() {
+    List<Restaurant> restaurants = this.getRestaurants();
+    for(Restaurant restaurant : restaurants) {
+      restaurant.deleteReviews();
+    }
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM restaurants WHERE cuisineid = :cuisine_id";
+      con.createQuery(sql).addParameter("cuisine_id", cuisine_id)
+      .executeUpdate();
+    }
+  }
+
 }
