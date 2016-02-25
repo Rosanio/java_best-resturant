@@ -14,14 +14,14 @@ public class ReviewTest {
 
   @Test
   public void save_savesReviewToDatabase() {
-    Review newReview = new Review("Matt", "password", 1);
+    Review newReview = new Review("Matt", "password", 1, 2);
     newReview.save();
     assertTrue(Review.all().get(0).equals(newReview));
   }
 
   @Test
   public void update_updatesReviewnameOfReview() {
-    Review newReview = new Review("Matt", "password", 1);
+    Review newReview = new Review("Matt", "password", 1, 2);
     newReview.save();
     String newReviewname = "Anna";
     newReview.update(newReviewname);
@@ -30,7 +30,7 @@ public class ReviewTest {
 
   @Test
   public void delete_removesReviewFromDatabase() {
-    Review newReview = new Review("Matt", "password", 1);
+    Review newReview = new Review("Matt", "password", 1, 2);
     newReview.save();
     newReview.delete();
     assertEquals(Review.all().size(), 0);
@@ -38,9 +38,9 @@ public class ReviewTest {
 
   @Test
   public void find_returnReviewWithSameId() {
-    Review firstReview = new Review("Matt", "password", 1);
+    Review firstReview = new Review("Matt", "password", 1, 2);
     firstReview.save();
-    Review secondReview = new Review("Matt", "password", 1);
+    Review secondReview = new Review("Matt", "password", 1, 2);
     secondReview.save();
     assertTrue(Review.find(secondReview.getId()).equals(secondReview));
   }

@@ -83,6 +83,34 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/:userId/restaurants/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      String userReview = request.queryParams("review");
+      int userRating = Integer.parseInt(request.queryParams("rating"));
+      Review newReview = new Review(user.getUsername(), userReview, userRating, restaurant.getId());
+      newReview.save();
+      model.put("reviews", restaurant.getReviews());
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("restaurants", Restaurant.all());
+      model.put("template", "templates/restaurant.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      model.put("reviews", restaurant.getReviews());
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("restaurants", Restaurant.all());
+      model.put("template", "templates/restaurant.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     post("/:userId/adminHome", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String userRestaurant = request.queryParams("name");
@@ -114,6 +142,38 @@ public class App {
       model.put("user", user);
       model.put("restaurant", restaurant);
       model.put("template", "templates/restaurant.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id/delete", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      restaurant.delete();
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/delete.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id/update", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      User user = User.find(Integer.parseInt(request.params(":userId")));      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/update.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/:userId/restaurants/:id/updated", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String updatedName = request.queryParams("update");
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      restaurant.update(updatedName);
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/updated.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
   }

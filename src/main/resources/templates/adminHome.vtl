@@ -28,7 +28,13 @@
     <hr>
     <ul>
       #foreach ($restaurant in $restaurants)
-      <li><a href="/$user.getId()/$restaurant.getId()">$restaurant.getName()</a></li>
+      <li>
+        <a href="/$user.getId()/restaurants/$restaurant.getId()">$restaurant.getName()</a>
+        <ul>
+          <li><a href="/$user.getId()/restaurants/$restaurant.getId()/delete">Delete</a></li>
+          <li><a href="/$user.getId()/restaurants/$restaurant.getId()/update">Update Name</a></li>
+        </ul>
+      </li>
       #end
     </ul>
   </div>

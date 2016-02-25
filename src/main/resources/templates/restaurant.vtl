@@ -2,10 +2,36 @@
 <h4>$restaurant.getName() serves $restaurant.getCuisineType()</h4>
 
 
-<form class="form-group" action="/$user.getId()" method="post">
-  <label for="username">Username</label>
-  <input type="text" name="username" placeholder="enter username" required>
-  <label for="password">Password</label>
-  <input type="password" name="password" placeholder="enter password" required>
-  <button type="submit" class="btn btn-default">Sign Up</button>
+<form class="form-group" action="/$user.getId()/restaurants/$restaurant.getId()" method="post">
+  <label for="review">Write a review</label>
+  <textarea class="form-control" rows="3" name="review" required></textarea>
+  <label>Rating</label>
+  <select name="rating">
+    <option value="1">&bigstar;</option>
+    <option value="2">&bigstar; &bigstar;</option>
+    <option value="3">&bigstar; &bigstar; &bigstar;</option>
+    <option value="4">&bigstar; &bigstar; &bigstar; &bigstar;</option>
+    <option value="5">&bigstar; &bigstar; &bigstar; &bigstar; &bigstar;</option>
+  </select>
+  <button type="submit" class="btn btn-default">Submit Review</button>
 </form>
+
+#foreach($review in $reviews)
+<h4>$review.getName()</h4>
+  #if($review.getRating() == 1)
+  <p>Rating: &bigstar;</p>
+  #end
+  #if($review.getRating() == 2)
+  <p>Rating: &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 3)
+  <p>Rating: &bigstar; &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 4)
+  <p>Rating: &bigstar; &bigstar; &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 5)
+  <p>Rating: &bigstar; &bigstar; &bigstar; &bigstar; &bigstar;</p>
+  #end
+<p>$review.getReview()</p>
+#end

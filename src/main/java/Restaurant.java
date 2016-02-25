@@ -81,4 +81,13 @@ public class Restaurant {
       return con.createQuery(sql).addParameter("cuisineid", cuisineId).executeAndFetchFirst(Cuisine.class).getType();
     }
   }
+
+  public List<Review> getReviews() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM reviews WHERE restaurant_id = :id";
+      return con.createQuery(sql).addParameter("id", id)
+      .executeAndFetch(Review.class);
+    }
+  }
+
 }
