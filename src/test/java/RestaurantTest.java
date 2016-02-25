@@ -58,9 +58,9 @@ public class RestaurantTest {
   public void deleteReviews_deletesReviewsAssingedToARestaurant() {
     Restaurant firstRestaurant = new Restaurant("Matt's", 1);
     firstRestaurant.save();
-    Review firstReview = new Review ("Anna", "great", 5, firstRestaurant.getId());
+    Review firstReview = new Review ("Anna", "great", 5, firstRestaurant.getId(), 1);
     firstReview.save();
-    Review secondReview = new Review ("Anna", "great", 5, firstRestaurant.getId());
+    Review secondReview = new Review ("Anna", "great", 5, firstRestaurant.getId(), 1);
     secondReview.save();
     firstRestaurant.deleteReviews();
     assertEquals(firstRestaurant.getReviews().size(), 0);

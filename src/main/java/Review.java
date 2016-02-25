@@ -7,12 +7,14 @@ public class Review {
   private String review;
   private int rating;
   private int restaurant_id;
+  private int user_id;
 
-  public Review (String name, String review, int rating, int restaurant_id) {
+  public Review (String name, String review, int rating, int restaurant_id, int user_id) {
     this.name = name;
     this.review = review;
     this.rating = rating;
     this.restaurant_id = restaurant_id;
+    this.user_id = user_id;
   }
 
   public int getId() {
@@ -35,6 +37,10 @@ public class Review {
     return restaurant_id;
   }
 
+  public int getUserId() {
+    return user_id;
+  }
+
   @Override
   public boolean equals(Object otherReview){
     if (!(otherReview instanceof Review)) {
@@ -48,12 +54,13 @@ public class Review {
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO reviews (name, review, rating, restaurant_id) VALUES (:name, :review, :rating, :restaurant_id)";
+      String sql = "INSERT INTO reviews (name, review, rating, restaurant_id, user_id) VALUES (:name, :review, :rating, :restaurant_id, :user_id)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", name)
         .addParameter("review", review)
         .addParameter("rating", rating)
         .addParameter("restaurant_id", restaurant_id)
+        .addParameter("user_id", user_id)
         .executeUpdate()
         .getKey();
     }

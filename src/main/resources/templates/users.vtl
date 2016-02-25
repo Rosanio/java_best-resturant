@@ -5,8 +5,12 @@
 <ul>
   #foreach($useer in $users)
   <li><a href="/$user.getId()/users/$useer.getId()">$useer.getUsername()</a></li>
+  <ul>
+    <li><a href="/$user.getId()/users/$useer.getId()/delete">Delete $useer.getUsername()</a></li>
+    <li><a href="/$user.getId()/users/$useer.getId()/update">Update $useer.getUsername()</a></li>
+  </ul>
   #end
 </ul>
 
-<a href="$user.getId()/adminHome">Go Back</a>
+<a href="/$user.getId()/adminHome">Go Back</a>
 #end

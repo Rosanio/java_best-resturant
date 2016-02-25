@@ -97,4 +97,12 @@ public class Restaurant {
       .executeUpdate();
     }
   }
+
+  public List<Image> getImages() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM images WHERE restaurant_id = :id";
+      return con.createQuery(sql).addParameter("id", id)
+      .executeAndFetch(Image.class);
+    }
+  }
 }

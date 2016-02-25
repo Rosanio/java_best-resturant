@@ -25,9 +25,9 @@ public class UserTest {
   public void update_updatesUsernameOfUser() {
     User newUser = new User("Matt", "password", "user");
     newUser.save();
-    String newUsername = "Anna";
+    String newUsername = "admin";
     newUser.update(newUsername);
-    assertTrue(User.all().get(0).getUsername().equals(newUsername));
+    assertTrue(User.all().get(0).getPermission().equals(newUsername));
   }
 
   @Test

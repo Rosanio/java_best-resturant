@@ -60,11 +60,10 @@ public class User {
     }
   }
 
-  public void update(String newUsername) {
-    this.username = newUsername;
+  public void update(String newPermission) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE users SET username = :newUsername WHERE id = :id";
-      con.createQuery(sql).addParameter("newUsername", newUsername).addParameter("id", id).executeUpdate();
+      String sql = "UPDATE users SET permission = :newPermission WHERE id = :id";
+      con.createQuery(sql).addParameter("newPermission", newPermission).addParameter("id", id).executeUpdate();
     }
   }
 
@@ -86,6 +85,14 @@ public class User {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM users WHERE username = :username";
       return con.createQuery(sql).addParameter("username", username).executeAndFetchFirst(User.class);
+    }
+  }
+
+  public List<Review> getReviews() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM reviews WHERE user_id = :id";
+      return con.createQuery(sql).addParameter("id", id)
+      .executeAndFetch(Review.class);
     }
   }
 }

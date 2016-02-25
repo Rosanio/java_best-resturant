@@ -89,7 +89,7 @@ public class App {
       Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
       String userReview = request.queryParams("review");
       int userRating = Integer.parseInt(request.queryParams("rating"));
-      Review newReview = new Review(user.getUsername(), userReview, userRating, restaurant.getId());
+      Review newReview = new Review(user.getUsername(), userReview, userRating, restaurant.getId(), user.getId());
       newReview.save();
       model.put("reviews", restaurant.getReviews());
       model.put("user", user);
@@ -103,6 +103,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       User user = User.find(Integer.parseInt(request.params(":userId")));
       Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      model.put("images", restaurant.getImages());
       model.put("reviews", restaurant.getReviews());
       model.put("user", user);
       model.put("restaurant", restaurant);
@@ -234,6 +235,72 @@ public class App {
       // newUser.save();
       model.put("user", user);
       model.put("template", "templates/addAdmin.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/users/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      User viewedUser = User.find(Integer.parseInt(request.params(":id")));
+      model.put("user", user);
+      model.put("viewedUser", viewedUser);
+      model.put("template", "templates/user.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/users/:id/delete", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      User otherUser = User.find(Integer.parseInt(request.params(":id")));
+      otherUser.delete();
+      model.put("user", user);
+      model.put("useer", otherUser);
+      model.put("template", "templates/deleteUser.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/users/:id/update", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      User otherUser = User.find(Integer.parseInt(request.params(":id")));
+      model.put("user", user);
+      model.put("useer", otherUser);
+      model.put("template", "templates/updateUser.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/:userId/users/:id/updated", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String updatedPermission = request.queryParams("permission");
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      User otherUser = User.find(Integer.parseInt(request.params(":id")));
+      otherUser.update(updatedPermission);
+      model.put("user", user);
+      model.put("useer", otherUser);
+      model.put("template", "templates/updatedUser.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id/addImage", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/addImage.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/:userId/restaurants/:id/imageAdded", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String url = request.queryParams("url");
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      Image newImage = new Image(url, restaurant.getId());
+      newImage.save();
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/imageAdded.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
   }

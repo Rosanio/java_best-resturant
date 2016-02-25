@@ -1,0 +1,24 @@
+<h3>Username: $viewedUser.getUsername()</h3>
+<p>Password: $viewedUser.getPassword()</p>
+<p>Permission: $viewedUser.getPermission()</p>
+#foreach ($review in $viewedUser.getReviews())
+<h4>$review.getName()</h4>
+  #if($review.getRating() == 1)
+  <p>Rating: &bigstar;</p>
+  #end
+  #if($review.getRating() == 2)
+  <p>Rating: &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 3)
+  <p>Rating: &bigstar; &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 4)
+  <p>Rating: &bigstar; &bigstar; &bigstar; &bigstar;</p>
+  #end
+  #if($review.getRating() == 5)
+  <p>Rating: &bigstar; &bigstar; &bigstar; &bigstar; &bigstar;</p>
+  #end
+<p>$review.getReview()</p>
+#end
+
+<a href="/$user.getId()/users"></a>
