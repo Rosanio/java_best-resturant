@@ -226,15 +226,24 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/:userId/addAdminis", (request, response) -> {
+    get("/:userId/addAdmin", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       User user = User.find(Integer.parseInt(request.params(":userId")));
-      // String enteredUsername = request.queryParams("username");
-      // String enteredPassword = request.queryParams("password");
-      // User newUser = new User(enteredUsername, enteredPassword, "admin");
-      // newUser.save();
       model.put("user", user);
       model.put("template", "templates/addAdmin.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/:userId/adminAdded", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      String enteredUsername = request.queryParams("username");
+      String enteredPassword = request.queryParams("password");
+      User newUser = new User(enteredUsername, enteredPassword, "admin");
+      newUser.save();
+      model.put("user", user);
+      model.put("admin", newUser);
+      model.put("template", "templates/adminAdded.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 

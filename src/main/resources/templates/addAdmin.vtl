@@ -1,3 +1,7 @@
+#if($user.getPermission().equals("user"))
+<h1>Nice Try...</h1>
+#else
+
 <h1>Add Admin</h1>
 <form class="form-group" action="/$user.getId()/adminAdded" method="post">
   <label for="username">Username</label>
@@ -8,3 +12,4 @@
 </form>
 
 <a href="/$user.getId()/adminHome">Go Back</a>
+#end
