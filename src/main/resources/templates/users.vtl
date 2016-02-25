@@ -1,0 +1,12 @@
+#if($user.getPermission().equals("user"))
+<h1>Nice Try...</h1>
+#else
+<h1>Users</h1>
+<ul>
+  #foreach($useer in $users)
+  <li><a href="/$user.getId()/users/$useer.getId()">$useer.getUsername()</a></li>
+  #end
+</ul>
+
+<a href="$user.getId()/adminHome">Go Back</a>
+#end

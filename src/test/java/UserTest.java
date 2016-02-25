@@ -2,6 +2,8 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.sql2o.*;
 
+import java.util.*;
+
 public class UserTest {
 
   @Rule
@@ -50,5 +52,15 @@ public class UserTest {
     User firstUser = new User("Matt", "password", "user");
     firstUser.save();
     assertTrue(User.search(firstUser.getUsername()).equals(firstUser));
+  }
+
+  @Test
+  public void all_returnsListOfAllUsers() {
+    User firstUser = new User("Matt", "password", "user");
+    firstUser.save();
+    User secondUser = new User("Anna", "1234", "admin");
+    secondUser.save();
+    User[] users = new User[] { firstUser, secondUser };
+    assertTrue(User.all().containsAll(Arrays.asList(users)));
   }
 }

@@ -135,16 +135,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/:userId/:id", (request, reponse) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
-      User user = User.find(Integer.parseInt(request.params(":userId")));
-      model.put("user", user);
-      model.put("restaurant", restaurant);
-      model.put("template", "templates/restaurant.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
     get("/:userId/restaurants/:id/delete", (request, reponse) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
@@ -210,6 +200,40 @@ public class App {
       model.put("user", user);
       model.put("cuisine", cuisine);
       model.put("template", "templates/updatedCuisine.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id/:reviewId/delete", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Review review = Review.find(Integer.parseInt(request.params(":reviewId")));
+      review.delete();
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("review", review);
+      model.put("template", "templates/deleteReview.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/users", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      model.put("user", user);
+      model.put("users", User.all());
+      model.put("template", "templates/users.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/:userId/addAdminis", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      // String enteredUsername = request.queryParams("username");
+      // String enteredPassword = request.queryParams("password");
+      // User newUser = new User(enteredUsername, enteredPassword, "admin");
+      // newUser.save();
+      model.put("user", user);
+      model.put("template", "templates/addAdmin.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
   }
