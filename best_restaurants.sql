@@ -63,6 +63,40 @@ ALTER SEQUENCE cuisine_id_seq OWNED BY cuisine.cuisine_id;
 
 
 --
+-- Name: images; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+--
+
+CREATE TABLE images (
+    id integer NOT NULL,
+    url character varying,
+    restaurant_id integer
+);
+
+
+ALTER TABLE images OWNER TO "Guest";
+
+--
+-- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE images_id_seq OWNER TO "Guest";
+
+--
+-- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE images_id_seq OWNED BY images.id;
+
+
+--
 -- Name: restaurants; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
 --
 
@@ -105,7 +139,8 @@ CREATE TABLE reviews (
     name character varying,
     review character varying,
     rating integer,
-    restaurant_id integer
+    restaurant_id integer,
+    user_id integer
 );
 
 
@@ -178,6 +213,13 @@ ALTER TABLE ONLY cuisine ALTER COLUMN cuisine_id SET DEFAULT nextval('cuisine_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
 --
 
+ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
 ALTER TABLE ONLY restaurants ALTER COLUMN id SET DEFAULT nextval('restaurants_id_seq'::regclass);
 
 
@@ -200,20 +242,9 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 COPY cuisine (cuisine_id, type) FROM stdin;
-1	American
-2	Southern
-3	italian
-4	italian
-5	italian
-6	italian
-7	italian
-8	italian
-9	italian
-10	italian
-11	italian
-12	italian
-13	mexican
-14	Mediterannean
+16	American
+17	Italian
+18	mexican
 \.
 
 
@@ -221,7 +252,33 @@ COPY cuisine (cuisine_id, type) FROM stdin;
 -- Name: cuisine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('cuisine_id_seq', 14, true);
+SELECT pg_catalog.setval('cuisine_id_seq', 18, true);
+
+
+--
+-- Data for Name: images; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY images (id, url, restaurant_id) FROM stdin;
+3	http://kingrichiespizza.com/wp-content/uploads/2015/12/d5a3498cfc9e53130b5f815ef44713b7_Jet.jpg	10
+4	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+5	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+7	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+8	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+9	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+10	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+11	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+12	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+13	http://slaw.me/blog/wp-content/uploads/2011/12/kitten.jpg	10
+14	img/img.jpg	11
+\.
+
+
+--
+-- Name: images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+--
+
+SELECT pg_catalog.setval('images_id_seq', 14, true);
 
 
 --
@@ -229,8 +286,10 @@ SELECT pg_catalog.setval('cuisine_id_seq', 14, true);
 --
 
 COPY restaurants (id, name, cuisineid) FROM stdin;
-3	Matt's	1
-4	Matt's	1
+10	Matt's	16
+11	Anna's	16
+12	Anna's	16
+13	Burger King	16
 \.
 
 
@@ -238,22 +297,22 @@ COPY restaurants (id, name, cuisineid) FROM stdin;
 -- Name: restaurants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('restaurants_id_seq', 5, true);
+SELECT pg_catalog.setval('restaurants_id_seq', 13, true);
 
 
 --
 -- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY reviews (id, name, review, rating, restaurant_id) FROM stdin;
-1	Jane	fdsfasdfa	1	1
-2	Jane	test	1	1
-3	Jane	test2	5	1
-4	Jane	test2	5	1
-5	Jane	Anna is the worst owner in the world. She was rude and pissed in my drink and showed me her ugly tattoos. Never going to back.	1	1
-6	Matt	This place has tasty but overpriced sandwiches	4	2
-7	brad	😜great!	2	4
-8	Jane	fjfjjf	1	4
+COPY reviews (id, name, review, rating, restaurant_id, user_id) FROM stdin;
+14	Jane	review	1	10	\N
+15	Jane	terrible	5	10	3
+16	Neil	THIS IS THE BEST PLACE EVER!~	5	10	9
+17	pokojt@gmail.com	OMG SO GUD	5	10	10
+18	mike	Tastest terrrrible	1	11	11
+19	abby	Not very nice	1	10	12
+20	abby	Great!	5	12	12
+21	darenschaad	It was amazing	4	10	13
 \.
 
 
@@ -261,7 +320,7 @@ COPY reviews (id, name, review, rating, restaurant_id) FROM stdin;
 -- Name: reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('reviews_id_seq', 8, true);
+SELECT pg_catalog.setval('reviews_id_seq', 21, true);
 
 
 --
@@ -269,12 +328,16 @@ SELECT pg_catalog.setval('reviews_id_seq', 8, true);
 --
 
 COPY users (id, username, password, permission) FROM stdin;
-1	Matt	password123	admin
-2	Anna	password123	admin
 3	Jane	1234	user
 4	mbrecunier	abba	user
-5	brad	brad	user
-6	polina	annananana	user
+2	Anna	password123	admin
+7	Jeff	fsadsfagasddfasewfasdaf	user
+8	John	no	user
+1	Matt	password123	admin
+9	Neil	Neil	user
+10	pokojt@gmail.com	snowmass09	user
+11	mike	mike	user
+12	abby	lala	user
 \.
 
 
@@ -282,7 +345,7 @@ COPY users (id, username, password, permission) FROM stdin;
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('users_id_seq', 6, true);
+SELECT pg_catalog.setval('users_id_seq', 13, true);
 
 
 --
@@ -291,6 +354,14 @@ SELECT pg_catalog.setval('users_id_seq', 6, true);
 
 ALTER TABLE ONLY cuisine
     ADD CONSTRAINT cuisine_pkey PRIMARY KEY (cuisine_id);
+
+
+--
+-- Name: images_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+--
+
+ALTER TABLE ONLY images
+    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
 
 
 --
