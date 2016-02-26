@@ -1,7 +1,52 @@
-<h3>Cuisine List</h3>
+#if($user.getPermission().equals("user"))
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/$user.getId()/restaurants">Rest &centerdot; U &centerdot; Rant</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/$user.getId()/restaurants">View Restaurants<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+      </ul>
+      <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+    </div>
+  </div>
+</nav>
+#else
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/$user.getId()/adminHome">Rest &centerdot; U &centerdot; Rant</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/$user.getId()/users">View Users<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/addAdmin">Add New Admin<span class="sr-only"></span></a></li>
+      </ul>
+      <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+    </div>
+  </div>
+</nav>
+#end
+<h1>Cuisine List</h1>
+<hr>
 <ul>
 #foreach ($cuisine in $cuisines)
-<li><a href="/$user.getId()/cuisines/$cuisine.getId()">$cuisine.getType()</a></li>
+<li><a class="bigLink" href="/$user.getId()/cuisines/$cuisine.getId()">$cuisine.getType()</a></li>
   #if($user.getPermission().equals("admin"))
   <ul>
     <li><a href="/$user.getId()/cuisines/$cuisine.getId()/delete">Delete</a></li>
@@ -10,11 +55,3 @@
   #end
 #end
 </ul>
-
-#if($user.getPermission().equals("admin"))
-<a href="/$user.getId()/adminHome">Best Restaurants Home</a>
-#end
-
-#if($user.getPermission().equals("user"))
-<a href="/$user.getId()/restaurants">View all restaurants</a>
-#end

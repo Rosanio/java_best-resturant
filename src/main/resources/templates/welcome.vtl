@@ -1,13 +1,76 @@
 #if($enteredPassword.equals($user.getPassword()))
-<h1>Welcome $user.getUsername()</h1>
-  #if($user.getPermission().equals("admin"))
-  <a href="/$user.getId()/adminHome">Enter</a>
-  #end
   #if($user.getPermission().equals("user"))
-  <a href="/$user.getId()/cuisines">View restaurants by cuisine</a>
-  <a href="/$user.getId()/restaurants">View all restaurants</a>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/$user.getId()/restaurants">Rest &centerdot; U &centerdot; Rant</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/$user.getId()/restaurants">View Restaurants<span class="sr-only"></span></a></li>
+          <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+        </ul>
+        <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+      </div>
+    </div>
+  </nav>
+  <h1>Welcome $user.getUsername()</h1>
+  <hr>
+  <h4>Rest &centerdot; U &centerdot; Rant Users can:</h4>
+  <ul>
+    <li>Browse restaurants by name</li>
+    <li>Browse cuisines by type</li>
+    <li>View all restaurants in a cuisine category</li>
+    <li>Add reviews to restaurants</li>
+    <li>Add photos to resaturants</li>
+  </ul>
+  <p><em>Click on the links above to get started!</em></p>
+
+  #else
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/$user.getId()/adminHome">Rest &centerdot; U &centerdot; Rant</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/$user.getId()/users">View Users<span class="sr-only"></span></a></li>
+          <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+          <li><a href="/$user.getId()/addAdmin">Add New Admin<span class="sr-only"></span></a></li>
+        </ul>
+        <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+      </div>
+    </div>
+  </nav>
+  <h1>Welcome $user.getUsername()</h1>
+  <hr>
+  <h4>Administrators at Rest &centerdot; U &centerdot; Rant can:</h4>
+  <ul>
+    <li>Add, update, and delete cuisine types</li>
+    <li>Add, update, and delete restaurants</li>
+    <li>View all Rest &centerdot; U &centerdot; Rant users</li>
+    <li>Update user permission level</li>
+    <li>Add new admin accounts</li>
+    <li>Add and delete restaurant photos</li>
+    <li>Delete bad reviews</li>
+  </ul>
+  <p><em>Click on the links above to get started!</em></p>
   #end
-#else
-<h1>Invalid password</h1>
+
+#end
+#if(!$enteredPassword.equals($user.getPassword()))
+<h1>Invalid username or password</h1>
 <a href="/">Try again</a>
 #end

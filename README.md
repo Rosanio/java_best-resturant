@@ -36,7 +36,7 @@ $ gradle run
 
 ## Legal
 
-Copyright (c) 2015 Author names go here
+Copyright (c) 2016 Matt Rosanio and Anna Becker
 
 This software is licensed under the MIT license.
 

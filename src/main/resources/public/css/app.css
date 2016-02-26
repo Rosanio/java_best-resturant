@@ -1,4 +1,27 @@
 img {
   max-width: 250px;
-  height: auto;
+  height: 250px;
+  margin-bottom: 5px;
+}
+
+.deleteImg {
+  margin-left: 30%;
+  margin-bottom: 10px;
+}
+
+body {
+  background-image: url(/images/purty_wood.png);
+}
+
+.container {
+  background-color: white;
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+}
+
+.bigLink {
+  font-size: 1.5em;
 }

@@ -312,5 +312,18 @@ public class App {
       model.put("template", "templates/imageAdded.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    get("/:userId/restaurants/:id/images/:imageId/delete", (request, reponse) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      User user = User.find(Integer.parseInt(request.params(":userId")));
+      Restaurant restaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+      Image image = Image.find(Integer.parseInt(request.params(":imageId")));
+      image.delete();
+      model.put("image", image);
+      model.put("user", user);
+      model.put("restaurant", restaurant);
+      model.put("template", "templates/deletedImage.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
   }
 }

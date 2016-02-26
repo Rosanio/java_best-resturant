@@ -1,10 +1,64 @@
-<h2>$restaurant.getName()</h2>
-<h4>$restaurant.getName() serves $restaurant.getCuisineType()</h4>
-<a href="/$user.getId()/restaurants/$restaurant.getId()/addImage">Add Image</a>
-<br>
-#foreach($image in $images)
-<img src="$image.getUrl()">
+#if($user.getPermission().equals("user"))
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/$user.getId()/restaurants">Rest &centerdot; U &centerdot; Rant</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/$user.getId()/restaurants">View Restaurants<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+      </ul>
+      <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+    </div>
+  </div>
+</nav>
+#else
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/$user.getId()/adminHome">Rest &centerdot; U &centerdot; Rant</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/$user.getId()/users">View Users<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/cuisines">View Cuisines<span class="sr-only"></span></a></li>
+        <li><a href="/$user.getId()/addAdmin">Add New Admin<span class="sr-only"></span></a></li>
+      </ul>
+      <a href="/" type="button" class="btn btn-default navbar-btn navbar-right">Sign Out</a>
+    </div>
+  </div>
+</nav>
 #end
+
+<h1>$restaurant.getName()</h1>
+<h3>$restaurant.getName() serves $restaurant.getCuisineType() cuisine</h3>
+<a href="/$user.getId()/restaurants/$restaurant.getId()/addImage" class="btn btn-default">Add Image</a>
+<br></br>
+<div class="row">
+  #foreach($image in $images)
+  <div class="col-sm-3">
+    <img src="$image.getUrl()" class="center-block">
+    #if($user.getPermission().equals("admin"))
+    <a href="/$user.getId()/restaurants/$restaurant.getId()/images/$image.getId()/delete" class="btn btn-danger deleteImg">Delete</a>
+    #end
+  </div>
+  #end
+</div>
+<hr>
+<br>
 
 #if($user.getPermission().equals("user"))
 <form class="form-group" action="/$user.getId()/restaurants/$restaurant.getId()" method="post">
@@ -20,12 +74,6 @@
   </select>
   <button type="submit" class="btn btn-default">Submit Review</button>
 </form>
-
-<a href="/$user.getId()/restaurants">View All Restaurants</a>
-#end
-
-#if($user.getPermission().equals("admin"))
-<a href="/$user.getId()/adminHome">Admin Home</a>
 #end
 
 #foreach($review in $reviews)

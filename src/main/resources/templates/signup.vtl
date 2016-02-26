@@ -1,8 +1,36 @@
-<h1>Sign Up</h1>
-<form class="form-group" action="/" method="post">
-  <label for="username">Username</label>
-  <input type="text" name="username" placeholder="enter username" required>
-  <label for="password">Password</label>
-  <input type="password" name="password" placeholder="enter password" required>
-  <button type="submit" class="btn btn-default">Sign Up</button>
-</form>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Rest &centerdot; U &centerdot; Rant</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/signup">Sign Up <span class="sr-only"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col-md-4">
+    <h1>Sign Up</h1>
+    <hr>
+    <form action="/" method="post">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" name="username" placeholder="enter username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" placeholder="enter password" required>
+      </div>
+      <button type="submit" class="btn btn-default center-block">Sign Up</button>
+    </form>
+  </div>
+</div>
